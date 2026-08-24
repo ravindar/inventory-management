@@ -38,11 +38,7 @@
     </div>
 
     <div class="sidebar-profile">
-      <div class="profile-avatar">{{ getInitials(currentUser.name) }}</div>
-      <div class="profile-info" v-if="!isCollapsed">
-        <div class="profile-name">{{ currentUser.name }}</div>
-        <div class="profile-role">{{ currentUser.jobTitle }}</div>
-      </div>
+      <div class="profile-avatar" :title="currentUser.name">{{ getInitials(currentUser.name) }}</div>
     </div>
 
     <nav class="sidebar-nav" aria-label="Primary">
