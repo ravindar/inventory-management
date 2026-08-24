@@ -151,13 +151,16 @@ export default {
 
 <style>
 :root {
-  /* Color system */
+  /* Light mode colors */
   --primary: #0f172a;
   --secondary: #64748b;
   --accent: #3b82f6;
   --success: #22c55e;
   --background: #f8fafc;
   --border-color: #e2e8f0;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --surface: #ffffff;
 
   /* Spacing scale */
   --spacing-sm: 0.5rem;
@@ -171,6 +174,23 @@ export default {
   --shadow-elevated: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
+/* Dark mode */
+:root[data-theme="dark"] {
+  --primary: #f8fafc;
+  --secondary: #cbd5e1;
+  --accent: #60a5fa;
+  --success: #4ade80;
+  --background: #0f172a;
+  --border-color: #1e293b;
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --surface: #1e293b;
+
+  --shadow-light: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --shadow-elevated: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -180,8 +200,9 @@ export default {
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   background: var(--background);
-  color: #1e293b;
+  color: var(--text-primary);
   line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -201,13 +222,14 @@ body {
   display: flex;
   align-items: center;
   gap: var(--spacing-md);
-  background: #ffffff;
+  background: var(--surface);
   border-bottom: 1px solid var(--border-color);
   box-shadow: var(--shadow-light);
   position: sticky;
   top: 0;
   z-index: 100;
   padding: 0.75rem var(--spacing-xl);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .top-bar-spacer {
