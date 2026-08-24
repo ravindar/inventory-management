@@ -1,19 +1,57 @@
 import { ref, computed } from 'vue'
 import en from '../locales/en'
 import ja from '../locales/ja'
+import hi from '../locales/hi'
+import es from '../locales/es'
+import fr from '../locales/fr'
+import de from '../locales/de'
+import zh from '../locales/zh'
+import pt from '../locales/pt'
+import ru from '../locales/ru'
+import ko from '../locales/ko'
+import ar from '../locales/ar'
+import it from '../locales/it'
+import nl from '../locales/nl'
 
 const translations = {
   en,
-  ja
+  ja,
+  hi,
+  es,
+  fr,
+  de,
+  zh,
+  pt,
+  ru,
+  ko,
+  ar,
+  it,
+  nl
 }
 
 // Load saved locale from localStorage, default to 'en'
 const savedLocale = localStorage.getItem('app-locale') || 'en'
 const currentLocale = ref(savedLocale)
 
-// Currency is automatically set based on locale (en -> USD, ja -> JPY)
+// Currency mapping by locale
+const currencyMap = {
+  en: 'USD',
+  ja: 'JPY',
+  hi: 'INR',    // Indian Rupee
+  es: 'EUR',    // Euro (Spain)
+  fr: 'EUR',    // Euro (France)
+  de: 'EUR',    // Euro (Germany)
+  zh: 'CNY',    // Chinese Yuan
+  pt: 'EUR',    // Euro (Portugal)
+  ru: 'RUB',    // Russian Ruble
+  ko: 'KRW',    // South Korean Won
+  ar: 'AED',    // UAE Dirham
+  it: 'EUR',    // Euro (Italy)
+  nl: 'EUR'     // Euro (Netherlands)
+}
+
 const currentCurrency = computed(() => {
-  return currentLocale.value === 'ja' ? 'JPY' : 'USD'
+  return currencyMap[currentLocale.value] || 'USD'
 })
 
 export function useI18n() {
@@ -69,7 +107,18 @@ export function useI18n() {
   const localeName = computed(() => {
     const names = {
       en: 'English',
-      ja: '日本語'
+      ja: '日本語',
+      hi: 'हिंदी',
+      es: 'Español',
+      fr: 'Français',
+      de: 'Deutsch',
+      zh: '中文',
+      pt: 'Português',
+      ru: 'Русский',
+      ko: '한국어',
+      ar: 'العربية',
+      it: 'Italiano',
+      nl: 'Nederlands'
     }
     return names[currentLocale.value] || currentLocale.value
   })
