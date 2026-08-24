@@ -5,6 +5,8 @@
       <p>{{ t('orders.description') }}</p>
     </div>
 
+    <FilterBar />
+
     <div v-if="loading" class="loading">{{ t('common.loading') }}</div>
     <div v-else-if="error" class="error">{{ error }}</div>
     <div v-else>
@@ -74,6 +76,53 @@
           </table>
         </div>
       </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Submitted Orders ({{ sortedSubmittedOrders.length }})</h3>
+        </div>
+
+        <div v-if="sortedSubmittedOrders.length === 0" class="empty-state">
+          No restocking orders have been submitted yet.
+        </div>
+
+        <div v-else class="table-container">
+          <table class="submitted-orders-table">
+            <thead>
+              <tr>
+                <th class="col-order-number">Order Number</th>
+                <th class="col-items">Items</th>
+                <th class="col-status">Status</th>
+                <th class="col-date">Expected Delivery</th>
+                <th class="col-lead-time">Lead Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="order in sortedSubmittedOrders" :key="order.id" class="submitted-order-row">
+                <td class="col-order-number"><strong>{{ order.order_number }}</strong></td>
+                <td class="col-items">
+                  <details class="items-details">
+                    <summary class="items-summary">
+                      {{ order.items.length }} item{{ order.items.length === 1 ? '' : 's' }}
+                    </summary>
+                    <div class="items-dropdown">
+                      <div v-for="item in order.items" :key="item.sku" class="item-entry">
+                        <span class="item-name">{{ item.name }}</span>
+                        <span class="item-meta">Qty: {{ item.quantity }} @ {{ currencySymbol }}{{ item.unit_price }}</span>
+                      </div>
+                    </div>
+                  </details>
+                </td>
+                <td class="col-status">
+                  <span class="badge submitted-badge">Submitted</span>
+                </td>
+                <td class="col-date">{{ formatDate(order.expected_delivery) }}</td>
+                <td class="col-lead-time">{{ order.lead_time_days }} days</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -83,9 +132,14 @@ import { ref, onMounted, watch, computed } from 'vue'
 import { api } from '../api'
 import { useFilters } from '../composables/useFilters'
 import { useI18n } from '../composables/useI18n'
+import { useRestockingOrders } from '../composables/useRestockingOrders'
+import FilterBar from '../components/FilterBar.vue'
 
 export default {
   name: 'Orders',
+  components: {
+    FilterBar
+  },
   setup() {
     const { t, currentCurrency, translateProductName, translateCustomerName } = useI18n()
 
@@ -95,6 +149,9 @@ export default {
     const loading = ref(true)
     const error = ref(null)
     const orders = ref([])
+
+    // Submitted restocking orders (shared, in-memory)
+    const { sortedSubmittedOrders } = useRestockingOrders()
 
     // Use shared filters
     const {
@@ -160,6 +217,7 @@ export default {
       loading,
       error,
       orders,
+      sortedSubmittedOrders,
       getOrdersByStatus,
       getOrderStatusClass,
       formatDate,
@@ -275,5 +333,35 @@ export default {
 .item-meta {
   font-size: 0.813rem;
   color: #64748b;
+}
+
+/* Submitted orders section */
+.empty-state {
+  padding: 2rem;
+  text-align: center;
+  color: #64748b;
+  font-size: 0.938rem;
+}
+
+.submitted-orders-table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.submitted-order-row {
+  background: #f8fafc;
+}
+
+.submitted-order-row:hover {
+  background: #f1f5f9;
+}
+
+.col-lead-time {
+  width: 120px;
+}
+
+.submitted-badge {
+  background: #e0e7ff;
+  color: #3730a3;
 }
 </style>

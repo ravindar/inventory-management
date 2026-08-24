@@ -74,3 +74,8 @@ npm install && npm run dev
 - Status: green/blue/yellow/red
 - Charts: Custom SVG, CSS Grid for layouts
 - No emojis in UI
+
+## Code Documentation
+- Always document non-obvious logic changes with comments
+- Focus comments on the WHY, not the WHAT
+- Comment when: hidden constraints, subtle invariants, workarounds for bugs, or behavior that would surprise a reader
