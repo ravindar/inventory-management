@@ -37,9 +37,6 @@
       </button>
     </div>
 
-    <div class="sidebar-profile">
-      <div class="profile-avatar" :title="currentUser.name">{{ getInitials(currentUser.name) }}</div>
-    </div>
 
     <nav class="sidebar-nav" aria-label="Primary">
       <router-link
