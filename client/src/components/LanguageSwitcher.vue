@@ -55,20 +55,32 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useI18n } from '../composables/useI18n'
 
 const { currentLocale, setLocale, availableLocales, localeName } = useI18n()
 
 const isDropdownOpen = ref(false)
 
-const languageNames = {
+// Dynamic language names based on locale
+const languageNames = computed(() => ({
   en: 'English',
-  ja: '日本語'
-}
+  ja: '日本語',
+  hi: 'हिंदी',
+  es: 'Español',
+  fr: 'Français',
+  de: 'Deutsch',
+  zh: '中文',
+  pt: 'Português',
+  ru: 'Русский',
+  ko: '한국어',
+  ar: 'العربية',
+  it: 'Italiano',
+  nl: 'Nederlands'
+}))
 
 const getLanguageName = (locale) => {
-  return languageNames[locale] || locale
+  return languageNames.value[locale] || locale
 }
 
 const toggleDropdown = () => {
@@ -136,13 +148,14 @@ const selectLanguage = (locale) => {
   position: absolute;
   top: calc(100% + 0.5rem);
   right: 0;
-  min-width: 160px;
+  min-width: 200px;
+  max-height: 400px;
   background: white;
   border: 1px solid #e2e8f0;
   border-radius: 10px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 .dropdown-item {
