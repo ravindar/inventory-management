@@ -114,8 +114,8 @@ const navItems = computed(() => [
   { path: '/orders', label: t('nav.orders'), icon: icons.orders },
   { path: '/demand', label: t('nav.demandForecast'), icon: icons.demand },
   { path: '/spending', label: t('nav.finance'), icon: icons.spending },
-  { path: '/reports', label: 'Reports', icon: icons.reports },
-  { path: '/restocking', label: 'Restocking', icon: icons.restocking }
+  { path: '/reports', label: t('nav.reports'), icon: icons.reports },
+  { path: '/restocking', label: t('nav.restocking'), icon: icons.restocking }
 ])
 
 const brandInitials = computed(() => {
